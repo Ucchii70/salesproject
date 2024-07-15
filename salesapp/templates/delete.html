@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}営業データ削除 | 営業進捗状況管理アプリ{% endblock %}
+{% block h1 %}削除{% endblock %}
+{% block content %}
+    <div class="p-4">
+        <form method="post" class="p-4 m-4 border border-primary rounded">
+            {% csrf_token %}
+            <p>{{ sales  }}を削除しますか？</p>            
+            <button type="submit" class="btn btn-primary">削除する</button>
+        </form>
+    </div>
+    <a href="{% url 'list' %}">一覧に戻る</a>
+
+
+{% endblock %}

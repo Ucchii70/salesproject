@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}営業進捗状況管理アプリ{% endblock %}
+{% block h1 %}営業データ一覧{% endblock %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+<div class="text-center alert alert-success">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+<div class="m-4">
+    <a href="{% url 'create' %}" class="btn btn-success mb-2">営業データを追加する</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="table-success">
+                <th>顧客</th>
+                <th>進捗状況</th>
+                <th>管理職チェック</th>
+                <th>営業担当者</th>
+                <th>詳細</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sales in object_list %}
+            <tr>
+                <td>{{ sales.customer.name }}</td>
+                <td>{{ sales.get_progress_display }}</td>
+                <td>{{ sales.manager_checked|yesno:"チェック済み, 未チェック"}}</td>
+                <td>{{ sales.staff.username }}</td>
+                <td><a href="{% url 'detail' sales.id %}">詳細へ</a></td>
+                <td>
+                    <a href="{% url 'update' sales.id %}" class="btn btn-success">更新する</a>
+                    <a href="{% url 'delete' sales.id %}" class="btn btn-danger">削除する</a>
+                    {% if request.user.is_superuser %}
+                      <form method="post" action="{% url 'manager-check' sales.id %}" class="d-inline">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-primary">チェックする</button>
+                      </form>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

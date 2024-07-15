@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}営業データ | 営業進捗状況管理アプリ{% endblock %}
+{% block h1 %}営業データ{% endblock %}
+{% block content %}
+<div class="p-4 m-4 border border-success rounded">
+    <div class="row">
+        <dl class="col-4">
+            <dt class="h3">顧客</dt>
+            <dd>{{ sales.customer.name }}</dd>
+        </dl>
+        <dl class="col-4">
+            <dt class="h3">進捗状況</dt>
+            <dd>{{ sales.get_progress_display }}</dd>
+        </dl>
+        <dl class="col-4">
+            <dt class="h3">営業担当者</dt>
+            <dd>{{ sales.staff.username }}</dd>
+        </dl>
+    </div>
+    <div class="row">
+        <dl class="col-12">
+            <dt class="h3">メモ</dt>
+            <dd>{{ sales.memo }}</dd>
+        </dl>
+    </div>
+</div>
+<a href="{% url 'list' %}">一覧に戻る</a>
+
+{% endblock %}
